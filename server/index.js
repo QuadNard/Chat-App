@@ -1,7 +1,15 @@
 const express = require("express");
-const app = express();
+const cors = require("cors");
 const mongoose = require("mongoose")
+const userRoutes = require("./routes/userRoutes")
+
+const app = express();
+require("dotenv").config();
+
+app.use(cors());
 app.use(express.json());
+
+app.use("/api/auth", userRoutes);
 
 const mongoUrl =
     "mongodb+srv://bradt1234:bradt1234@cluster0.grmn7bh.mongodb.net/?retryWrites=true&w=majority"
