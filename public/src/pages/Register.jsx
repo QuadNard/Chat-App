@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Applogo from "../assets/Applogo.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
 function Register() {
-    //Register components
+    //register/submit components
     const [values, setValues] = useState({
         username: "",
         email: "",
@@ -15,14 +17,45 @@ function Register() {
     });
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert("form");
+        handleVaildation();
+    };
+    //toastify error components
+    const toastOptions = {
+        position: "bottom-right",
+        autoCloase: 8000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+    }
+    const handleVaildation = () => {
+        const { password, confirmPassword, username, email } = values;
+        if (password !== confirmPassword) {
+            toast.error("password and confirm password should be the same.",
+                toastOptions
+            );
+            return false;
+        } else if (username.length < 3) {
+            toast.error("Username should be greater than 3 characters",
+                toastOptions
+            );
+            return false;
+        } else if (password.length < 8) {
+            toast.error("Username should be equal or greater than 8 characters",
+                toastOptions
+            );
+            return false;
+        } else if (email === "") {
+            toast.error("email is required",
+                toastOptions
+            );
+            return false;
+        }
+        return true;
+
     };
     const handleChange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
-
     };
-
-
 
     return (
         <>
@@ -48,12 +81,14 @@ function Register() {
                         type="password"
                         placeholder="Password"
                         name="password"
+                        autoComplete='on'
                         onChange={(e) => handleChange(e)}
                     />
                     <input
                         type="password"
                         placeholder="Confirm Password"
                         name="confirmPassword"
+                        autoComplete='on'
                         onChange={(e) => handleChange(e)}
                     />
 
@@ -64,6 +99,7 @@ function Register() {
                     </span>
                 </form>
             </FormContainer>
+            <ToastContainer />
         </>
     )
 }
