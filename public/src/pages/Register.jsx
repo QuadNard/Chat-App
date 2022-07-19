@@ -17,6 +17,12 @@ function Register() {
         password: "",
         confirmPassword: "",
     });
+    useEffect(() => {
+        if (localStorage.getItem("chat-app-user")) {
+            navigate('/')
+        }
+    }, []);
+
     // data retrival of Sumbit
     const handleSubmit = async (event) => {
         event.preventDefault();
